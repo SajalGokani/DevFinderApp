@@ -3,43 +3,8 @@ import { StyleSheet, View, Image, Text, TouchableOpacity, Pressable } from 'reac
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//MOCK DATA - In Downtown Calgary
-const MOCK_USERS = [
-  { 
-    id: '1', 
-    username: 'SajalGokani',                   
-    name: 'Sajal Gokani',                      
-    avatar: 'https://avatars.githubusercontent.com/u/228764650?v=4&s=400', 
-    latitude: 51.0464, // My avatar- At Bow Valley College 
-    longitude: -114.0624 
-  },
-  { 
-    id: '2', 
-    username: 'torvalds',                      
-    name: 'Linus Torvalds', 
-    avatar: 'https://github.com/torvalds.png', 
-    latitude: 51.0445, 
-    longitude: -114.0650 
-  },
-  {
-    id: '3',
-    username: 'gaearon', 
-    name: 'Dan Abramov',
-    avatar: 'https://github.com/gaearon.png',
-    latitude: 51.0428, 
-    longitude: -114.0615
-  },
-  {
-    id: '4',
-    username: 'yyx990803', 
-    name: 'Evan You',
-    avatar: 'https://github.com/yyx990803.png',
-    latitude: 51.0448, 
-    longitude: -114.06
-  }
-];
-
-export default function MapScreen({ navigation }) {
+// Removed mock data and added navigation route to this screen
+export default function MapScreen({ navigation, route }) {
   
   //LOGOUT LOGIC
   const handleLogout = async () => {
@@ -70,6 +35,9 @@ export default function MapScreen({ navigation }) {
 
   const hideTooltip = () => setTooltip(null);
 
+  //keep the user once they log out so they will see previous user and whoever they login as next
+  const users = route.params?.users ?? [];
+
   return (
     //Fixed Camera on Calgary Tower
     <View style={styles.container}>
@@ -85,7 +53,8 @@ export default function MapScreen({ navigation }) {
           longitudeDelta: 0.012,
         }}
       >
-        {MOCK_USERS.map(user => (
+        //populate new users around the Calgary Tower
+        {users.map(user => (
           <Marker 
             key={user.id} 
             coordinate={{ latitude: user.latitude, longitude: user.longitude }}

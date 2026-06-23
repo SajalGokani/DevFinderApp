@@ -6,7 +6,7 @@ export const verifyGitHubUser = async (username) => {
     if (response.status === 200) {
       // Parse the raw response data into a usable JavaScript object
       const data = await response.json();
-      return { success: true, data };
+      return { success: true, data: data };
     }
     
     // If the status is anything else (like a 404 Not Found), return a failure flag
